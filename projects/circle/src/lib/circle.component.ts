@@ -43,7 +43,7 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
       'minVal' : [25, Validators.required],
       'midVal' : [50, Validators.required],
       'maxVal' : [70, Validators.required],
-      'style' : ['0.25', Validators.required],
+      'style' : ['0.22', Validators.required],
       'minZoneCol' : ['#171825', Validators.required],
       'midZoneCol' : ['#FFFF00', Validators.required],
       'maxZoneCol' : ['#BE061C', Validators.required]
