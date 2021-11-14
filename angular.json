@@ -100,6 +100,37 @@
           }
         }
       }
+    },
+    "circle": {
+      "projectType": "library",
+      "root": "projects/circle",
+      "sourceRoot": "projects/circle/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/circle/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/circle/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/circle/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/circle/src/test.ts",
+            "tsConfig": "projects/circle/tsconfig.spec.json",
+            "karmaConfig": "projects/circle/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "semi-circle"
