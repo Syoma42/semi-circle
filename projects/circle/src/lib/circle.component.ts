@@ -170,7 +170,7 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
     this.context.beginPath();
     this.context.fillStyle = 'rgb(38, 42, 54)';
     this.context.moveTo(175, 250);
-    this.context.arc(175, 250, 50, this.start * Math.PI / 180.0, this.end * Math.PI / 180.0, false);
+    this.context.arc(175, 250, 50, this.start * Math.PI / 180.0, (this.end + 5) * Math.PI / 180.0, false);
     this.context.fill();
   }
 
