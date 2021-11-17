@@ -1,4 +1,4 @@
-<canvas class="canvas" #canvas width="600" height="550">Your browser is not supported.</canvas>
+<canvas class="canvas" #canvas width="600" height="480">Your browser is not supported.</canvas>
 <form [formGroup]="exform">
     <div>
         <label>Current value</label>
@@ -33,5 +33,17 @@
     <div>
         <label>Max zone color</label>
         <input type="color" formControlName="maxZoneCol">
+    </div>
+    <div>
+        <label>Min stroke color</label>
+        <input type="color" formControlName="minStrokeCol">
+    </div>
+    <div>
+        <label>Mid stroke color</label>
+        <input type="color" formControlName="midStrokeCol">
+    </div>
+    <div>
+        <label>Max stroke color</label>
+        <input type="color" formControlName="maxStrokeCol">
     </div>
 </form>

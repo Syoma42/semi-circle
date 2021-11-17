@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { CircleModule } from 'projects/circle/src/public-api';
-
+import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
+
+import { CircleModule } from 'projects/circle/src/public-api';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  declarations: [
+  declarations: [ 
     AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    CircleModule
+    CircleModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
