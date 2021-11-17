@@ -21,15 +21,11 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
   curColor: string;
   valueColor: string;
   numberColor: string;
-  // minStrokeColor: string;
-  // midStrokeColor: string;
-  // maxStrokeColor: string;
   start: number = 270;
   end: number;
   valueMargin: number = 100;
   numberValueMargin: number = 150;
   scaleMarginX: number = 155;
-  
   
   
   public styles = ['0.22', '0.25', '0.39', '0.5']
@@ -46,7 +42,7 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
       'midVal' : [50, Validators.required],
       'maxVal' : [70, Validators.required],
       'style' : ['0.22', Validators.required],
-      'minZoneCol' : ['#171825', Validators.required],
+      'minZoneCol' : ['#00ff00', Validators.required],
       'midZoneCol' : ['#FFFF00', Validators.required],
       'maxZoneCol' : ['#BE061C', Validators.required],
       'minStrokeCol': ['#00ff00', Validators.required],
@@ -54,7 +50,6 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
       'maxStrokeCol': ['#BE061C', Validators.required]
     }) 
 
-    // this.getDataFromAPI()
     this.service.listen('test event').subscribe((data) => {
       console.log(data)
     }) 
@@ -68,14 +63,6 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
   ngAfterViewChecked() : void {
     this.newConfirm()
   }
-
-  // getDataFromAPI() {
-  //     this.service.getData().subscribe((response) => {
-  //       console.log('Response is', response)
-  //     }, (error) => {
-  //       console.log('Error is', error)
-  //     })
-  // }
 
   // get input values
 
@@ -123,62 +110,57 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
     return this.exform.get('maxStrokeCol')
   }
 
-  // form functions
+  // live update
 
   newConfirm(): void {
-    if (this.curVal?.value <= this.minVal?.value) {  // green zone
-      this.clearCanv()
-      this.greenZone()
-      this.semiCircle()
-    } else if (this.curVal?.value > this.midVal?.value) {  // red zone
-      this.clearCanv()
-      this.redZone()
-      this.semiCircle()
-    } else {  // yellow zone
-      this.clearCanv()
-      this.yellowZone()
-      this.semiCircle()
-    }
+    this.clearCanv()
+    this.setZone()
+    this.semiCircle()
   }
 
   clearCanv(): void {
     this.context.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
   }
 
-  greenZone(): void {
-    this.curColor = this.minZoneCol?.value;
-    this.valueColor = 'green';
-    // this.minStrokeColor = this.minStrokeCol?.value
-    // this.midStrokeColor = this.midStrokeCol?.value;
-    // this.maxStrokeColor = this.maxStrokeCol?.value;
-  }
-
-  yellowZone(): void {
-    this.curColor = this.midZoneCol?.value;
-    this.valueColor = this.curColor;
-    // this.minStrokeColor = '#171825';
-    // this.midStrokeColor = '#FFFF00';
-    // this.maxStrokeColor = '#FFFF00';
-  }
-
-  redZone(): void {
-    this.curColor = this.maxZoneCol?.value;
-    this.valueColor = this.curColor;
-    // this.minStrokeColor = 'rgb(23, 24, 37)';
-    // this.midStrokeColor = this.minStrokeColor;
-    // this.maxStrokeColor = '#FFFF00';
+  setZone(): void {
+    this.valueColor = this.curColor
+    if (this.curVal?.value <= this.minVal?.value) { // green
+      this.curColor = this.minZoneCol?.value
+    } else if (this.curVal?.value > this.midVal?.value) { // red
+      this.curColor = this.maxZoneCol?.value
+    } else {                                      // yellow
+      this.curColor = this.midZoneCol?.value
+    }
   }
   
   // draw semi-circle
 
   semiCircle(): void {
     this.setStyle()
-    this.currentValue();
-    this.transparentSection();
+    this.currentValue()
+    this.transparentSection()
     this.setScaleMargin()
-    this.strokesNumbers();
-    this.setValueMargin();
-    this.numberValue();
+    this.setValueMargin()
+    this.strokesNumbers()
+  }
+
+  setStyle(): void {
+    switch(this.style?.value) {
+      case '0.22':
+        this.end = 350
+        break
+      case '0.25':
+        this.end = 360
+        break
+      case '0.39':
+        this.end = 410
+        break
+      case '0.5':
+        this.end = 450
+        break
+      default:
+        this.end = 350
+    }
   }
 
   currentValue(): void {
@@ -188,7 +170,6 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
       this.curRad = 220
     }
     
-
     this.context.beginPath()
     this.context.fillStyle = this.curColor;
     this.context.moveTo(175, 250);
@@ -204,69 +185,10 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
     this.context.fill();
   }
 
-  strokesNumbers(): void {
-    this.minRad = this.maxRad * (this.minVal?.value / this.maxVal?.value);
-    this.midRad = this.maxRad * (this.midVal?.value / this.maxVal?.value);
-    // min value
-    this.context.beginPath();
-    this.context.font = '10px arial';
-    this.context.fillStyle = this.minStrokeCol?.value;
-    this.context.fillText(`${this.minVal?.value}`, this.scaleMarginX, 250 - this.minRad);
-    // min line
-    this.context.beginPath();
-    this.context.arc(175, 250, this.minRad, this.start * Math.PI / 180.0, this.end * Math.PI / 180.0, false);
-    this.context.strokeStyle = this.minStrokeCol?.value;
-    this.context.lineWidth = 2;
-    this.context.stroke()
-    // mid value
-    this.context.beginPath();
-    this.context.font = '10px arial';
-    this.context.fillStyle = this.midStrokeCol?.value;
-    this.context.fillText(`${this.midVal?.value}`, this.scaleMarginX, 250 - this.midRad);
-    // mid line 
-    this.context.beginPath();
-    this.context.arc(175, 250, this.midRad, this.start * Math.PI / 180.0, this.end * Math.PI / 180.0, false);
-    this.context.strokeStyle = this.midStrokeCol?.value;
-    this.context.lineWidth = 2;
-    this.context.stroke()
-    // max value
-    this.context.beginPath();
-    this.context.font = '10px arial';
-    this.context.fillStyle = this.maxStrokeCol?.value;
-    this.context.fillText(`${this.maxVal?.value}`, this.scaleMarginX, 30);
-    // max line
-    this.context.beginPath();
-    this.context.arc(175, 250, this.maxRad, this.start * Math.PI / 180.0, this.end * Math.PI / 180.0, false);
-    this.context.strokeStyle = this.maxStrokeCol?.value;
-    this.context.lineWidth = 2;
-    this.context.stroke()
-  }
-
-  numberValue(): void {
-    // value section
-    this.context.beginPath();
-    this.context.font = '20px arial'
-    this.context.fillStyle = this.valueColor;
-    this.context.fillText('ROP', this.valueMargin, 260)
-    // number section
-    this.context.beginPath();
-    this.context.font = '36px arial';
-    this.context.fillStyle = this.valueColor;
-    this.context.fillText(`${this.curVal?.value}`, this.numberValueMargin, 260);
-  }
-
-  setStyle(): void {
-    if (this.style?.value === '0.22') {
-      this.end = 350
-    } else if (this.style?.value === '0.25') {
-      this.end = 360
-    } else if (this.style?.value === '0.39') {
-      this.end = 410
-    } else if (this.style?.value === '0.5') {
-      this.end = 450
-    } else {
-      this.end = 350;
-    } 
+  setScaleMargin(): void {
+    if (this.minVal?.value > 999 || this.midVal?.value > 999 || this.maxVal?.value > 999) {
+      this.scaleMarginX = 150
+    }
   }
 
   setValueMargin(): void {
@@ -279,9 +201,40 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
     }
   }
 
-  setScaleMargin(): void {
-    if (this.minVal?.value > 999 || this.midVal?.value > 999 || this.maxVal?.value > 999) {
-      this.scaleMarginX = 150
+  strokesNumbers(): void {
+    this.minRad = this.maxRad * (this.minVal?.value / this.maxVal?.value);
+    this.midRad = this.maxRad * (this.midVal?.value / this.maxVal?.value);
+    // numbers min -> max
+    this.drawValue('10px arial', this.minStrokeCol?.value, this.minVal?.value, this.scaleMarginX, 250 - this.minRad)
+    this.drawValue('10px arial', this.midStrokeCol?.value, this.midVal?.value, this.scaleMarginX, 250 - this.midRad)
+    this.drawValue('10px arial', this.maxStrokeCol?.value, this.maxVal?.value, this.scaleMarginX, 250 - this.maxRad)
+    // strokes min -> max
+    this.drawStroke(this.minRad, this.minStrokeCol?.value)
+    this.drawStroke(this.midRad, this.midStrokeCol?.value)
+    this.drawStroke(this.maxRad, this.maxStrokeCol?.value)
+    // current value
+    this.drawValue('20px arial', this.valueColor, 'ROP', this.valueMargin, 260)
+    this.drawValue('36px arial', this.valueColor, this.curVal?.value, this.numberValueMargin, 260)
+  }
+
+
+  drawValue(font: string, color: string, value: string, marginX: number, marginY: number): void {
+    this.context.beginPath()
+    this.context.font = font
+    this.context.fillStyle = color
+    this.context.fillText(value, marginX, marginY)
+  }
+
+  drawStroke(radius: number, color: string): void {
+
+    if (this.minRad < 50) {
+      radius = 0
     }
+
+    this.context.beginPath()
+    this.context.arc(175, 250, radius, this.start * Math.PI / 180.0, this.end * Math.PI / 180.0, false)
+    this.context.strokeStyle = color
+    this.context.lineWidth = 2
+    this.context.stroke()
   }
 }
