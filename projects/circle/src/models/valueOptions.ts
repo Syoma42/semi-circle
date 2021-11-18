@@ -1,5 +1,13 @@
 export interface valueOptions {
-    valueMargin: number;
-    numberValueMargin: number;
-    scaleMarginX: number;
+    curVal: number,
+    minVal: number,
+    midVal: number,
+    maxVal: number,
+    style: string,
+    minZoneCol: string,
+    midZoneCol: string,
+    maxZoneCol: string,
+    minStrokeCol: string,
+    midStrokeCol: string,
+    maxStrokeCol: string
 }

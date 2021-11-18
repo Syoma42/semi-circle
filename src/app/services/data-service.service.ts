@@ -7,22 +7,22 @@ import { Observable } from 'rxjs';
 })
 export class DataServiceService {
 
-  socket: any;
-  readonly uri: string = 'ws://localhost:3000';
+  // socket: any;
+  // readonly uri: string = 'ws://localhost:3000';
 
-  constructor() { 
-    this.socket = io(this.uri);
-  }
+  // constructor() { 
+  //   this.socket = io(this.uri);
+  // }
 
-  listen(eventName : string) {
-    return new Observable((subscriber) => {
-      this.socket.on(eventName, (data: any) => {
-        subscriber.next(data)
-      })
-    })
-  }
+  // listen(eventName : string) {
+  //   return new Observable((subscriber) => {
+  //     this.socket.on(eventName, (data: any) => {
+  //       subscriber.next(data)
+  //     })
+  //   })
+  // }
 
-  emit(eventName: string, data: any) {
-    this.socket.emit(eventName, data)
-  }
+  // emit(eventName: string, data: any) {
+  //   this.socket.emit(eventName, data)
+  // }
 }

@@ -1,39 +1,40 @@
-import { hasLifecycleHook } from '@angular/compiler/src/lifecycle_reflector';
 import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataServiceService } from './services/data-service.service';
-import { zoneOptions } from 'projects/circle/src/models/zoneOptions';
+import { valueOptions } from 'projects/circle/src/models/valueOptions';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
   title = 'semi-circle';
-  checkInput: string = 'Hello Input'
 
-  zoneOpt: zoneOptions = {
-  start2: 100
+  valueOpt: valueOptions = {
+    curVal: this.curVal?.value,
+    minVal: this.minVal?.value,
+    midVal: this.midVal?.value,
+    maxVal: this.maxVal?.value,
+    style: this.style?.value,
+    minZoneCol: this.minZoneCol?.value,
+    midZoneCol: this.midZoneCol?.value,
+    maxZoneCol: this.maxZoneCol?.value,
+    minStrokeCol: this.minStrokeCol?.value,
+    midStrokeCol: this.midStrokeCol?.value,
+    maxStrokeCol: this.maxStrokeCol?.value
   };
 
+  public styles = ['0.22', '0.25', '0.39', '0.5']
+
   exform: FormGroup;
-  curRad: number;
-  minRad: number;
-  midRad: number;
-  maxRad: number = 220;
-  curColor: string;
-  valueColor: string;
-  numberColor: string;
-  start: number = 270;
-  end: number;
-  valueMargin: number = 100;
-  numberValueMargin: number = 150;
-  scaleMarginX: number = 155;
 
 
   constructor (private fb: FormBuilder,
               private service: DataServiceService) {}
+
 
   ngOnInit(): void {
     this.exform = this.fb.group({
@@ -54,21 +55,25 @@ export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
   ngAfterViewChecked() {}
 
   // Getters
+  getData() {
+    
+
+  }
 
   get curVal() {
-    return this.exform.get('curVal');
+    return this.exform.get('curVal')
   }
 
   get minVal() {
-    return this.exform.get('minVal');
+    return this.exform.get('minVal')
   }
 
   get midVal() {
-    return this.exform.get('midVal');
+    return this.exform.get('midVal')
   }
 
   get maxVal() {
-    return this.exform.get('maxVal');
+    return this.exform.get('maxVal')
   }
 
   get style() {
