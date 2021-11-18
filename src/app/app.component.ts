@@ -1,6 +1,8 @@
+import { hasLifecycleHook } from '@angular/compiler/src/lifecycle_reflector';
 import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataServiceService } from './services/data-service.service';
+import { zoneOptions } from 'projects/circle/src/models/zoneOptions';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +11,25 @@ import { DataServiceService } from './services/data-service.service';
 })
 export class AppComponent implements OnInit, AfterViewInit, AfterViewChecked {
   title = 'semi-circle';
+  checkInput: string = 'Hello Input'
+
+  zoneOpt: zoneOptions = {
+  start2: 100
+  };
+
   exform: FormGroup;
+  curRad: number;
+  minRad: number;
+  midRad: number;
+  maxRad: number = 220;
+  curColor: string;
+  valueColor: string;
+  numberColor: string;
+  start: number = 270;
+  end: number;
+  valueMargin: number = 100;
+  numberValueMargin: number = 150;
+  scaleMarginX: number = 155;
 
 
   constructor (private fb: FormBuilder,

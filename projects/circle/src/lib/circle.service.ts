@@ -7,26 +7,23 @@ import { Observable } from 'rxjs';
 })
 export class CircleService {
 
-  socket: any;
-  readonly uri: string = 'ws://localhost:3000';
+  // socket: any;
+  // readonly uri: string = 'ws://localhost:3000';
 
-  constructor() { 
-    this.socket = io(this.uri);
-  }
-
-  listen(eventName : string) {
-    return new Observable((subscriber) => {
-      this.socket.on(eventName, (data: any) => {
-        subscriber.next(data)
-      })
-    })
-  }
-
-  emit(eventName: string, data: any) {
-    this.socket.emit(eventName, data)
-  }
-
-  // getData() {
-  //   return this.http.get('/api/getData')
+  // constructor() { 
+  //   this.socket = io(this.uri);
   // }
+
+  // listen(eventName : string) {
+  //   return new Observable((subscriber) => {
+  //     this.socket.on(eventName, (data: any) => {
+  //       subscriber.next(data)
+  //     })
+  //   })
+  // }
+
+  // emit(eventName: string, data: any) {
+  //   this.socket.emit(eventName, data)
+  // }
+
 }

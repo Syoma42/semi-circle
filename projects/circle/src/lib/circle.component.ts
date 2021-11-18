@@ -1,5 +1,6 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { zoneOptions } from '../models/zoneOptions';
 import { CircleService } from './circle.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { CircleService } from './circle.service';
 export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   @ViewChild('canvas', { static: false }) canvas: ElementRef<HTMLCanvasElement>;
+  @Input() zoneOpt: zoneOptions;
 
   private context: CanvasRenderingContext2D;
 
@@ -31,8 +33,9 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
   public styles = ['0.22', '0.25', '0.39', '0.5']
   
   
-  constructor (private fb: FormBuilder,
-               private service: CircleService) {}
+  constructor (private fb: FormBuilder
+              //  private service: CircleService
+  ) {}
 
 
   ngOnInit(): void {
@@ -50,19 +53,23 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
       'maxStrokeCol': ['#BE061C', Validators.required]
     }) 
 
-    this.service.listen('test event').subscribe((data) => {
-      console.log(data)
-    }) 
+    // this.service.listen('test event').subscribe((data) => {
+    //   console.log(data)
+    // }) 
+    
+    
   }
 
   ngAfterViewInit(): void {
     this.context = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
     this.newConfirm()
+    console.log(this.zoneOpt)
   }
 
   ngAfterViewChecked() : void {
     this.newConfirm()
   }
+
 
   // get input values
 
