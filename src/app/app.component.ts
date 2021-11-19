@@ -41,13 +41,16 @@ export class AppComponent implements OnInit {
 
   getData() {
     this.service.listen('getData').subscribe((data) => {
-    console.log('This is data ', data)
+      // @ts-ignore
+      return this.valueOpt.curVal = data
+      // console.log(data)
+      // this.service.emit('getData', this.valueOpt.curVal)
   })
-    this.service.emit('getData', this.valueOpt.curVal)
+
   }
 
   getCur(min: number, max: number) {  
-    this.valueOpt.curVal = Math.floor(
+    return this.valueOpt.curVal = Math.floor(
       Math.random() * (max - min + 1) + min
     )
   }

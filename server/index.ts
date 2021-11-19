@@ -9,23 +9,17 @@ const io = new Server(httpServer, {
     origin: "*"
   }
 });
-let cur = getCur(0, 100)
 
+// let cur = getCur(0, 100)
 
-// app.get('/', (req,res) => res.send('Express + TypeScript Serverkkk'));
 
 io.on('connection', socket => {
-  socket.emit('getData', cur)
+  setInterval(() => socket.emit('getData', getCur(0, 100)), 2000)
 })
 
 httpServer.listen(3000)
 
-// function getIntervalCur() {
-//   setInterval(() => getCur(0, 100), 3000)
-// }
 
-function getCur(min: number, max: number) {  
-  return Math.floor(
-    Math.random() * (max - min + 1) + min
-  )
+function getCur(min: number, max: number) { 
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }
