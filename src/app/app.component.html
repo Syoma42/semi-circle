@@ -1,49 +1,50 @@
 <lib-circle [valueOpt]="valueOpt"></lib-circle>
-<form [formGroup]="exform">
+
     <div>
         <label>Current value</label>
-        <input formControlName="curVal" type="number">
+        <input name="curVal" [(ngModel)]="valueOpt.curVal" type="number">
     </div>
     <div>
         <label>Min value</label>
-        <input formControlName="minVal" type="number">
+        <input name="minVal" [(ngModel)]="valueOpt.minVal" type="number">
     </div>
     <div>
         <label>Middle value</label>
-        <input formControlName="midVal" type="number">
+        <input name="midVal" [(ngModel)]="valueOpt.midVal" type="number">
     </div>
     <div>
         <label>Max value</label>
-        <input formControlName="maxVal" type="number">
+        <input name="maxVal" [(ngModel)]="valueOpt.maxVal" type="number">
     </div>
     <div>
         <label>Circle style</label>
-        <select formControlName="style">
+        <select name="style" [(ngModel)]="valueOpt.style">
             <option *ngFor="let style of styles">{{ style }}</option>
         </select>
     </div>
     <div>
         <label>Min zone color</label>
-        <input type="color" formControlName="minZoneCol">
+        <input type="color" name="minZoneCol" [(ngModel)]="valueOpt.minZoneCol">
     </div>
     <div>
         <label>Mid zone color</label>
-        <input type="color" formControlName="midZoneCol">
+        <input type="color" name="midZoneCol" [(ngModel)]="valueOpt.midZoneCol">
     </div>
     <div>
         <label>Max zone color</label>
-        <input type="color" formControlName="maxZoneCol">
+        <input type="color" fname="maxZoneCol" [(ngModel)]="valueOpt.maxZoneCol">
     </div>
     <div>
         <label>Min stroke color</label>
-        <input type="color" formControlName="minStrokeCol">
+        <input type="color" name="minStrokeCol" [(ngModel)]="valueOpt.minStrokeCol">
     </div>
     <div>
         <label>Mid stroke color</label>
-        <input type="color" formControlName="midStrokeCol">
+        <input type="color" name="midStrokeCol" [(ngModel)]="valueOpt.midStrokeCol">
     </div>
     <div>
         <label>Max stroke color</label>
-        <input type="color" formControlName="maxStrokeCol">
+        <input type="color" name="maxStrokeCol" [(ngModel)]="valueOpt.maxStrokeCol">
     </div>
-</form>
+    <button type="button">Start getting data</button>
+    <button type="button">Stop getting data</button>

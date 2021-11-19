@@ -1,8 +1,6 @@
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { valueOptions } from '../models/valueOptions';
-import { zoneOptions } from '../models/zoneOptions';
-import { CircleService } from './circle.service';
+
 
 @Component({
   selector: 'lib-circle',
@@ -29,22 +27,12 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
   valueMargin: number = 100;
   numberValueMargin: number = 150;
   scaleMarginX: number = 155;
+    
   
-  
-
-  
-  
-  constructor (
-              //  private service: CircleService
-  ) {}
+  constructor () {}
 
 
-  ngOnInit(): void {
-
-    // this.service.listen('test event').subscribe((data) => {
-    //   console.log(data)
-    // }) 
-  }
+  ngOnInit(): void {  }
 
   ngAfterViewInit(): void {
     this.context = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
@@ -55,7 +43,6 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
   ngAfterViewChecked() : void {
     this.newConfirm()
   }
-
 
   // live update
 
@@ -70,7 +57,6 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
   }
 
   setZone(): void {
-    this.valueColor = this.curColor
     if (this.valueOpt.curVal <= this.valueOpt.minVal) { // green
       this.curColor = this.valueOpt.minZoneCol
     } else if (this.valueOpt.curVal > this.valueOpt.midVal) { // red
@@ -78,6 +64,7 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
     } else {                                      // yellow
       this.curColor = this.valueOpt.midZoneCol
     }
+    this.valueColor = this.curColor
   }
   
   // draw semi-circle
@@ -152,16 +139,16 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
     this.minRad = this.maxRad * (this.valueOpt.minVal / this.valueOpt.maxVal);
     this.midRad = this.maxRad * (this.valueOpt.midVal / this.valueOpt.maxVal);
     // numbers min -> max
-    this.drawValue('10px arial', this.valueOpt.minStrokeCol, this.valueOpt.minVal.toString(), this.scaleMarginX, 250 - this.minRad)
-    this.drawValue('10px arial', this.valueOpt.midStrokeCol, this.valueOpt.midVal.toString(), this.scaleMarginX, 250 - this.midRad)
-    this.drawValue('10px arial', this.valueOpt.maxStrokeCol, this.valueOpt.maxVal.toString(), this.scaleMarginX, 250 - this.maxRad)
+    this.drawValue('10px arial', this.valueOpt.minStrokeCol, `${this.valueOpt.minVal}`, this.scaleMarginX, 250 - this.minRad)
+    this.drawValue('10px arial', this.valueOpt.midStrokeCol, `${this.valueOpt.midVal}`, this.scaleMarginX, 250 - this.midRad)
+    this.drawValue('10px arial', this.valueOpt.maxStrokeCol, `${this.valueOpt.maxVal}`, this.scaleMarginX, 250 - this.maxRad)
     // strokes min -> max
     this.drawStroke(this.minRad, this.valueOpt.minStrokeCol)
     this.drawStroke(this.midRad, this.valueOpt.midStrokeCol)
     this.drawStroke(this.maxRad, this.valueOpt.maxStrokeCol)
     // current value
     this.drawValue('20px arial', this.valueColor, 'ROP', this.valueMargin, 260)
-    this.drawValue('36px arial', this.valueColor, this.valueOpt.curVal.toString(), this.numberValueMargin, 260)
+    this.drawValue('36px arial', this.valueColor, `${this.valueOpt.curVal}`, this.numberValueMargin, 260)
   }
 
 
