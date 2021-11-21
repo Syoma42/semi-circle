@@ -62,8 +62,8 @@ export class AppComponent implements OnInit {
 
   getData() {
     this.service.listen('getData').subscribe((data) => {
-      // @ts-ignore
-      return this.valueOpt.curVal = data  
+      
+      return this.valueOpt.curVal = data
   })
   }
 

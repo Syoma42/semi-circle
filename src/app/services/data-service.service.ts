@@ -13,7 +13,7 @@ export class DataServiceService {
   
 
   constructor() { 
-    this.socket = io(this.url, {forceNew: true});
+    this.socket = io(this.url);
   }
 
   listen(eventName : string) {
