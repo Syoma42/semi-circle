@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { DataServiceService } from './services/data-service.service';
 import { valueOptions } from 'projects/circle/src/models/valueOptions';
-
-
+import { DOCUMENT } from '@angular/common';
 
 
 @Component({
@@ -13,6 +12,7 @@ import { valueOptions } from 'projects/circle/src/models/valueOptions';
 
 export class AppComponent implements OnInit {
   title = 'semi-circle';
+  theme: Theme = 'dark-theme'
 
   valueOpt: valueOptions = {
     curVal: 43,
@@ -31,12 +31,32 @@ export class AppComponent implements OnInit {
   public styles = ['0.22', '0.25', '0.39', '0.5']
 
 
-  constructor (private service: DataServiceService) {}
+  constructor (
+    private service: DataServiceService,
+    @Inject(DOCUMENT) private document: Document,
+    private renderer: Renderer2) {}
 
 
   ngOnInit(): void {
     this.getData()
+    this.setTheme()
   }
+
+  // theme
+
+  setTheme = (): void => {
+    this.renderer.addClass(this.document.body, this.theme)
+  }
+
+  switchTheme(): void {
+    this.document.body.classList.replace(
+      this.theme, 
+      this.theme === 'light-theme' ? (this.theme = 'dark-theme') 
+      : (this.theme = 'light-theme')
+    )
+  }
+
+  // data
 
   getData() {
     this.service.listen('getData').subscribe((data) => {
@@ -44,9 +64,8 @@ export class AppComponent implements OnInit {
       return this.valueOpt.curVal = data  
   })
   }
-
-  
-
 }
+
+export type Theme = 'dark-theme' | 'light-theme' 
 
 

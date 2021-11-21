@@ -1,0 +1,28 @@
+.container {
+    background-color: var(--background-color);
+    color: var(--color);
+    display: flex;
+    align-items: center;
+}
+
+
+.input-line {
+    width: 180px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+input, select {
+    width: 50px;
+}
+
+
+.button { 
+    display: block;
+    margin: 3px auto;
+    text-align: center;
+    width: 180px;
+}
+

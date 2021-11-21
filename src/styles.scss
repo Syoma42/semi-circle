@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    margin: 0px;
+}
+
+* {box-sizing:border-box;}
+
+.ligth-theme {
+    --background-color: white;
+    --color: black
+}
+
+.dark-theme {
+    --background-color: rgb(38, 42, 54);
+    --color: white;
+}
+
+
