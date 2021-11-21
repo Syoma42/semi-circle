@@ -10,11 +10,11 @@ const io = new Server(httpServer, {
   }
 });
 
-// let cur = getCur(0, 100)
 
 
 io.on('connection', socket => {
   setInterval(() => socket.emit('getData', getCur(0, 100)), 2000)
+  // здесь добавить socket.on ивенты для кнопок
 })
 
 httpServer.listen(3000)

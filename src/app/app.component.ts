@@ -30,30 +30,21 @@ export class AppComponent implements OnInit {
 
   public styles = ['0.22', '0.25', '0.39', '0.5']
 
+
   constructor (private service: DataServiceService) {}
 
 
   ngOnInit(): void {
     this.getData()
-    // setInterval(() => this.getCur(0, 100), 2000)
-  
   }
 
-  getData() {
+  getData(/*value*/) {
     this.service.listen('getData').subscribe((data) => {
       // @ts-ignore
-      return this.valueOpt.curVal = data
-      // console.log(data)
-      // this.service.emit('getData', this.valueOpt.curVal)
+      return this.valueOpt.curVal = data  // return value = data
   })
-
   }
 
-  getCur(min: number, max: number) {  
-    return this.valueOpt.curVal = Math.floor(
-      Math.random() * (max - min + 1) + min
-    )
-  }
 }
 
 
