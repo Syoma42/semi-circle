@@ -4,6 +4,7 @@ import { valueOptions } from 'projects/circle/src/models/valueOptions';
 import { DOCUMENT } from '@angular/common';
 
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.getData()
     this.setTheme()
+    // this.service.getClick()
   }
 
   // theme
@@ -64,6 +66,17 @@ export class AppComponent implements OnInit {
       return this.valueOpt.curVal = data  
   })
   }
+
+  
+
+  clickData() {
+    this.service.getClick()
+  }
+
+  unClickData() {
+    this.service.unGetClick()
+  }
+
 }
 
 export type Theme = 'dark-theme' | 'light-theme' 
