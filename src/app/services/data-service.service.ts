@@ -13,7 +13,7 @@ export class DataServiceService {
   
 
   constructor() { 
-    this.socket = io(this.url);
+    this.socket = io(this.url, {forceNew: true});
   }
 
   listen(eventName : string) {
@@ -24,5 +24,11 @@ export class DataServiceService {
     })
   }
 
- 
+  getClick() {
+    this.socket.emit('getClick')
+  }
+
+  unGetClick() {
+    this.socket.emit('unGetClick')
+  }
 }

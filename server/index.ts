@@ -13,8 +13,14 @@ const io = new Server(httpServer, {
 
 
 io.on('connection', socket => {
-  setInterval(() => socket.emit('getData', getCur(0, 100)), 2000)
-  // здесь добавить socket.on ивенты для кнопок
+
+  socket.on('getClick', () => {
+    setInterval(() => socket.emit('getData', getCur(0, 100)), 2000)
+  })
+
+  socket.on('unGetClick', () => {
+    socket.disconnect()
+  })
 })
 
 httpServer.listen(3000)
