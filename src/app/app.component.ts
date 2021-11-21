@@ -8,7 +8,7 @@ import { valueOptions } from 'projects/circle/src/models/valueOptions';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 
 export class AppComponent implements OnInit {
@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
 
   valueOpt: valueOptions = {
     curVal: 43,
-    minVal: 25,  
+    minVal: 40,  
     midVal: 50, 
     maxVal: 70, 
     style: '0.22',  
@@ -38,12 +38,14 @@ export class AppComponent implements OnInit {
     this.getData()
   }
 
-  getData(/*value*/) {
+  getData() {
     this.service.listen('getData').subscribe((data) => {
       // @ts-ignore
-      return this.valueOpt.curVal = data  // return value = data
+      return this.valueOpt.curVal = data  
   })
   }
+
+  
 
 }
 

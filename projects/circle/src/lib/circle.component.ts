@@ -1,13 +1,14 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { ThrowStmt } from '@angular/compiler';
+import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component, DoCheck, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { valueOptions } from '../models/valueOptions';
 
 
 @Component({
   selector: 'lib-circle',
   templateUrl: './circle.component.html',
-  styleUrls: ['./circle.component.css']
+  styleUrls: ['./circle.component.scss']
 })
-export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked, AfterContentChecked {
 
   @ViewChild('canvas', { static: false }) canvas: ElementRef<HTMLCanvasElement>;
   
@@ -36,12 +37,27 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
 
   ngAfterViewInit(): void {
     this.context = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
-    this.newConfirm()
-    console.log(this.valueOpt)
+    // this.newConfirm()
   }
 
   ngAfterViewChecked() : void {
     this.newConfirm()
+  }
+
+  ngAfterContentChecked(): void {
+    this.validation()
+  }
+
+  // validation
+
+  validation(): void {
+    if (this.valueOpt.minVal >= this.valueOpt.midVal) {  // min >= mid
+      alert('Minimum value can not exceed middle value')
+      this.valueOpt.minVal = this.valueOpt.midVal - 1
+    } else if (this.valueOpt.midVal >= this.valueOpt.maxVal) { // mid >= max
+      alert('Middle value can not exceed maximum value')
+      this.valueOpt.midVal = this.valueOpt.maxVal - 1
+    } 
   }
 
   // live update
@@ -51,7 +67,7 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked 
     this.setZone()
     this.semiCircle()
   }
-
+  
   clearCanv(): void {
     this.context.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
   }
