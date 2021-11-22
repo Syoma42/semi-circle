@@ -18,7 +18,7 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
   curRad: number;
   minRad: number;
   midRad: number;
-  maxRad: number = 220;
+  maxRad: number = 170;
   curColor: string;
   valueColor: string;
   numberColor: string;
@@ -116,7 +116,7 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
   }
 
   currentValue(): void {
-    this.curRad = this.maxRad * (this.valueOpt.curVal / this.valueOpt.maxVal);
+    this.curRad = this.maxRad * (this.valueOpt.curVal / this.valueOpt.maxVal) + 50;
 
     if (this.curRad > 220) {
       this.curRad = 220
@@ -133,7 +133,7 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
     this.context.beginPath();
     this.context.fillStyle = 'rgb(38, 42, 54)';
     this.context.moveTo(175, 250);
-    this.context.arc(175, 250, 50, this.start * Math.PI / 180.0, (this.end + 5) * Math.PI / 180.0, false);
+    this.context.arc(175, 250, 51, this.start * Math.PI / 180.0, (this.end + 5) * Math.PI / 180.0, false);
     this.context.fill();
   }
 
@@ -157,9 +157,9 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
     this.minRad = this.maxRad * (this.valueOpt.minVal / this.valueOpt.maxVal);
     this.midRad = this.maxRad * (this.valueOpt.midVal / this.valueOpt.maxVal);
     // numbers min -> max
-    this.drawValue('10px arial', this.valueOpt.minStrokeCol, `${this.valueOpt.minVal}`, this.scaleMarginX, 250 - this.minRad)
-    this.drawValue('10px arial', this.valueOpt.midStrokeCol, `${this.valueOpt.midVal}`, this.scaleMarginX, 250 - this.midRad)
-    this.drawValue('10px arial', this.valueOpt.maxStrokeCol, `${this.valueOpt.maxVal}`, this.scaleMarginX, 250 - this.maxRad)
+    this.drawValue('10px arial', this.valueOpt.minStrokeCol, `${this.valueOpt.minVal}`, this.scaleMarginX, 200 - this.minRad)
+    this.drawValue('10px arial', this.valueOpt.midStrokeCol, `${this.valueOpt.midVal}`, this.scaleMarginX, 200 - this.midRad)
+    this.drawValue('10px arial', this.valueOpt.maxStrokeCol, `${this.valueOpt.maxVal}`, this.scaleMarginX, 200 - this.maxRad)
     // strokes min -> max
 
     if (this.minRad < 50) {  // deletes min stroke 
@@ -184,7 +184,7 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
 
   drawStroke(radius: number, color: string): void {
     this.context.beginPath()
-    this.context.arc(175, 250, radius, this.start * Math.PI / 180.0, this.end * Math.PI / 180.0, false)
+    this.context.arc(175, 250, radius + 50, this.start * Math.PI / 180.0, this.end * Math.PI / 180.0, false)
     this.context.strokeStyle = color
     this.context.lineWidth = 2
     this.context.stroke()

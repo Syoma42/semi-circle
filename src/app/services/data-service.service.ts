@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,6 @@ export class DataServiceService {
   constructor() { 
     this.socket = io(this.url);
     this.listen('getData').subscribe((data) => {
-      
     this.subject.next(data as number)
   })
   }
