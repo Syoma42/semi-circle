@@ -1,5 +1,4 @@
-import { ThrowStmt } from '@angular/compiler';
-import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component, DoCheck, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { valueOptions } from '../models/valueOptions';
 
 
@@ -37,7 +36,6 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
 
   ngAfterViewInit(): void {
     this.context = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
-    // this.newConfirm()
   }
 
   ngAfterViewChecked() : void {
@@ -159,6 +157,11 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
     this.drawValue('10px arial', this.valueOpt.midStrokeCol, `${this.valueOpt.midVal}`, this.scaleMarginX, 250 - this.midRad)
     this.drawValue('10px arial', this.valueOpt.maxStrokeCol, `${this.valueOpt.maxVal}`, this.scaleMarginX, 250 - this.maxRad)
     // strokes min -> max
+
+    if (this.minRad < 50) {  // deletes min stroke 
+      this.minRad = 0
+    }
+    
     this.drawStroke(this.minRad, this.valueOpt.minStrokeCol)
     this.drawStroke(this.midRad, this.valueOpt.midStrokeCol)
     this.drawStroke(this.maxRad, this.valueOpt.maxStrokeCol)
@@ -176,11 +179,6 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
   }
 
   drawStroke(radius: number, color: string): void {
-
-    if (this.minRad < 50) {
-      radius = 0
-    }
-
     this.context.beginPath()
     this.context.arc(175, 250, radius, this.start * Math.PI / 180.0, this.end * Math.PI / 180.0, false)
     this.context.strokeStyle = color
