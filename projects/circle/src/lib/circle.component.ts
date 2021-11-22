@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, AfterViewInit, Component, ElementRef, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { valueOptions } from '../models/valueOptions';
 
 
@@ -27,10 +27,14 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
   valueMargin: number = 100;
   numberValueMargin: number = 150;
   scaleMarginX: number = 155;
+  transparentCol: string;
     
   
   constructor () {}
 
+
+  
+  
 
   ngOnInit(): void {  }
 
@@ -50,10 +54,10 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
 
   validation(): void {
     if (this.valueOpt.minVal >= this.valueOpt.midVal) {  // min >= mid
-      alert('Minimum value can not exceed middle value')
+      // alert('Minimum value can not exceed middle value')
       this.valueOpt.minVal = this.valueOpt.midVal - 1
     } else if (this.valueOpt.midVal >= this.valueOpt.maxVal) { // mid >= max
-      alert('Middle value can not exceed maximum value')
+      // alert('Middle value can not exceed maximum value')
       this.valueOpt.midVal = this.valueOpt.maxVal - 1
     } 
   }

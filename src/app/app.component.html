@@ -9,11 +9,11 @@
         </div>
         <div class="input-line">
             <label>Minimum value</label>
-            <input name="minVal" [(ngModel)]="valueOpt.minVal" type="number">
+            <input name="minVal" [min]="0" [(ngModel)]="valueOpt.minVal" type="number">
         </div>
         <div class="input-line">
             <label>Middle value</label>
-            <input name="midVal" [(ngModel)]="valueOpt.midVal" type="number">
+            <input name="midVal" [min]="valueOpt.minVal + 1" [(ngModel)]="valueOpt.midVal" type="number">
         </div>
         <div class="input-line">
             <label>Max value</label>
