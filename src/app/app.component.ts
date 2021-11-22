@@ -60,10 +60,9 @@ export class AppComponent implements OnInit {
   // data
 
   getData() {
-    this.service.listen('getData').subscribe((data) => {
-      // @ts-ignore
-      return this.valueOpt.curVal = data
-  })
+    this.service.subject.subscribe(data => {
+      this.valueOpt.curVal = data
+    })
   }
 
   clickData() {
