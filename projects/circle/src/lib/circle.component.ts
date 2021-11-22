@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterViewChecked, AfterViewInit, Component, ElementRef, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Theme } from 'src/app/app.component';
 import { valueOptions } from '../models/valueOptions';
 
@@ -8,7 +8,7 @@ import { valueOptions } from '../models/valueOptions';
   templateUrl: './circle.component.html',
   styleUrls: ['./circle.component.scss']
 })
-export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked, AfterContentChecked {
+export class CircleComponent implements AfterViewInit, AfterViewChecked, AfterContentChecked {
 
   @ViewChild('canvas', { static: false }) canvas: ElementRef<HTMLCanvasElement>;
   
@@ -17,25 +17,27 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
 
   private context: CanvasRenderingContext2D;
 
+  // radius
   curRad: number;
   minRad: number;
   midRad: number;
   maxRad: number = 170;
+  // colors
   curColor: string;
   valueColor: string;
   numberColor: string;
+  transparentCol: string;
+  valueNameCol: string;
+  // Circle style
   start: number = 270;
   end: number;
-  valueMargin: number = 100;
-  numberValueMargin: number = 150;
+  // Scale and current value margin
+  valueMargin: number;
+  numberValueMargin: number;
   scaleMarginX: number = 155;
-  transparentCol: string;
+
     
-  
   constructor () {}
-
-
-  ngOnInit(): void {  }
 
   ngAfterViewInit(): void {
     this.context = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
@@ -85,8 +87,17 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
     this.valueColor = this.curColor
   }
 
+  // Dark or light theme
+
   setTheme(): void {
     this.theme === 'dark-theme' ? this.transparentCol = 'rgb(38, 42, 54)' : this.transparentCol = 'white'
+    if (this.theme === 'dark-theme') {
+      this.transparentCol = 'rgb(38, 42, 54)'
+      this.valueNameCol = 'white'
+    } else {
+      this.transparentCol = 'white'
+      this.valueNameCol = 'black'
+    }
   }
   
   // draw semi-circle
@@ -147,29 +158,6 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
     }
   }
 
-  // setValueMargin(): void {
-  //   if (this.valueOpt.curVal > 999) {
-  //     this.valueMargin = 50
-  //     this.numberValueMargin = 100
-  //   } else {
-  //     this.valueMargin = 100
-  //     this.numberValueMargin = 150
-  //   }
-  // }
-
-  // setValueMargin(): void {
-  //   if (this.valueOpt.curVal > 999 && this.valueOpt.nameVal.length > 3) {
-  //     this.valueMargin = 5
-  //     this.numberValueMargin = 100
-  //   } else if (this.valueOpt.curVal > 999 || this.valueOpt.nameVal.length > 3) {
-  //     this.valueMargin = 50
-  //     this.numberValueMargin = 100
-  //   } else {
-  //     this.valueMargin = 100
-  //     this.numberValueMargin = 150
-  //   }
-  // }
-
   setValueMargin(): void {
     if (this.valueOpt.curVal > 999 && this.valueOpt.nameVal.length > 3 ) {
       this.valueMargin = 5
@@ -185,11 +173,6 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
     }
   }
 
-  setValueMargin2(): void {
-    
-  }
-
-
   strokesNumbers(): void {
     this.minRad = this.maxRad * (this.valueOpt.minVal / this.valueOpt.maxVal);
     this.midRad = this.maxRad * (this.valueOpt.midVal / this.valueOpt.maxVal);
@@ -202,10 +185,9 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
     this.drawStroke(this.midRad, this.valueOpt.midStrokeCol)
     this.drawStroke(this.maxRad, this.valueOpt.maxStrokeCol)
     // current value
-    this.drawValue('20px arial', this.valueColor, `${this.valueOpt.nameVal}`, this.valueMargin, 260)
+    this.drawValue('20px arial', this.valueNameCol, `${this.valueOpt.nameVal}`, this.valueMargin, 260)
     this.drawValue('36px arial', this.valueColor, `${this.valueOpt.curVal}`, this.numberValueMargin, 260)
   }
-
 
   drawValue(font: string, color: string, value: string, marginX: number, marginY: number): void {
     this.context.beginPath()
