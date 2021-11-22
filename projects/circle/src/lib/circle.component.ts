@@ -1,4 +1,5 @@
-import { AfterContentChecked, AfterViewChecked, AfterViewInit, Component, ElementRef, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Theme } from 'src/app/app.component';
 import { valueOptions } from '../models/valueOptions';
 
 
@@ -7,36 +8,36 @@ import { valueOptions } from '../models/valueOptions';
   templateUrl: './circle.component.html',
   styleUrls: ['./circle.component.scss']
 })
-export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked, AfterContentChecked {
+export class CircleComponent implements AfterViewInit, AfterViewChecked, AfterContentChecked {
 
   @ViewChild('canvas', { static: false }) canvas: ElementRef<HTMLCanvasElement>;
   
   @Input() valueOpt: valueOptions;
+  @Input() theme: Theme;
 
   private context: CanvasRenderingContext2D;
 
+  // radius
   curRad: number;
   minRad: number;
   midRad: number;
-  maxRad: number = 220;
+  maxRad: number = 170;
+  // colors
   curColor: string;
   valueColor: string;
   numberColor: string;
+  transparentCol: string;
+  valueNameCol: string;
+  // Circle style
   start: number = 270;
   end: number;
-  valueMargin: number = 100;
-  numberValueMargin: number = 150;
+  // Scale and current value margin
+  valueMargin: number;
+  numberValueMargin: number;
   scaleMarginX: number = 155;
-  transparentCol: string;
+
     
-  
   constructor () {}
-
-
-  
-  
-
-  ngOnInit(): void {  }
 
   ngAfterViewInit(): void {
     this.context = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
@@ -65,6 +66,7 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
   // live update
 
   newConfirm(): void {
+    this.setTheme()
     this.clearCanv()
     this.setZone()
     this.semiCircle()
@@ -83,6 +85,19 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
       this.curColor = this.valueOpt.midZoneCol
     }
     this.valueColor = this.curColor
+  }
+
+  // Dark or light theme
+
+  setTheme(): void {
+    this.theme === 'dark-theme' ? this.transparentCol = 'rgb(38, 42, 54)' : this.transparentCol = 'white'
+    if (this.theme === 'dark-theme') {
+      this.transparentCol = 'rgb(38, 42, 54)'
+      this.valueNameCol = 'white'
+    } else {
+      this.transparentCol = 'white'
+      this.valueNameCol = 'black'
+    }
   }
   
   // draw semi-circle
@@ -116,7 +131,7 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
   }
 
   currentValue(): void {
-    this.curRad = this.maxRad * (this.valueOpt.curVal / this.valueOpt.maxVal);
+    this.curRad = this.maxRad * (this.valueOpt.curVal / this.valueOpt.maxVal) + 50;
 
     if (this.curRad > 220) {
       this.curRad = 220
@@ -131,9 +146,9 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
 
   transparentSection(): void {
     this.context.beginPath();
-    this.context.fillStyle = 'rgb(38, 42, 54)';
+    this.context.fillStyle = this.transparentCol;
     this.context.moveTo(175, 250);
-    this.context.arc(175, 250, 50, this.start * Math.PI / 180.0, (this.end + 5) * Math.PI / 180.0, false);
+    this.context.arc(175, 250, 51, this.start * Math.PI / 180.0, (this.end + 5) * Math.PI / 180.0, false);
     this.context.fill();
   }
 
@@ -144,9 +159,14 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
   }
 
   setValueMargin(): void {
-    if (this.valueOpt.curVal > 999) {
-      this.valueMargin = 50
+    if (this.valueOpt.curVal > 999 && this.valueOpt.nameVal.length > 3 ) {
+      this.valueMargin = 5
       this.numberValueMargin = 100
+    } else if (this.valueOpt.curVal > 999) {
+      this.valueMargin = 55
+      this.numberValueMargin = 100
+    } else if (this.valueOpt.nameVal.length > 3) {
+      this.valueMargin = 100 - (this.valueOpt.nameVal.length - 3) * 20
     } else {
       this.valueMargin = 100
       this.numberValueMargin = 150
@@ -157,23 +177,17 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
     this.minRad = this.maxRad * (this.valueOpt.minVal / this.valueOpt.maxVal);
     this.midRad = this.maxRad * (this.valueOpt.midVal / this.valueOpt.maxVal);
     // numbers min -> max
-    this.drawValue('10px arial', this.valueOpt.minStrokeCol, `${this.valueOpt.minVal}`, this.scaleMarginX, 250 - this.minRad)
-    this.drawValue('10px arial', this.valueOpt.midStrokeCol, `${this.valueOpt.midVal}`, this.scaleMarginX, 250 - this.midRad)
-    this.drawValue('10px arial', this.valueOpt.maxStrokeCol, `${this.valueOpt.maxVal}`, this.scaleMarginX, 250 - this.maxRad)
+    this.drawValue('10px arial', this.valueOpt.minStrokeCol, `${this.valueOpt.minVal}`, this.scaleMarginX, 200 - this.minRad)
+    this.drawValue('10px arial', this.valueOpt.midStrokeCol, `${this.valueOpt.midVal}`, this.scaleMarginX, 200 - this.midRad)
+    this.drawValue('10px arial', this.valueOpt.maxStrokeCol, `${this.valueOpt.maxVal}`, this.scaleMarginX, 200 - this.maxRad)
     // strokes min -> max
-
-    if (this.minRad < 50) {  // deletes min stroke 
-      this.minRad = 0
-    }
-    
     this.drawStroke(this.minRad, this.valueOpt.minStrokeCol)
     this.drawStroke(this.midRad, this.valueOpt.midStrokeCol)
     this.drawStroke(this.maxRad, this.valueOpt.maxStrokeCol)
     // current value
-    this.drawValue('20px arial', this.valueColor, 'ROP', this.valueMargin, 260)
+    this.drawValue('20px arial', this.valueNameCol, `${this.valueOpt.nameVal}`, this.valueMargin, 260)
     this.drawValue('36px arial', this.valueColor, `${this.valueOpt.curVal}`, this.numberValueMargin, 260)
   }
-
 
   drawValue(font: string, color: string, value: string, marginX: number, marginY: number): void {
     this.context.beginPath()
@@ -184,7 +198,7 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
 
   drawStroke(radius: number, color: string): void {
     this.context.beginPath()
-    this.context.arc(175, 250, radius, this.start * Math.PI / 180.0, this.end * Math.PI / 180.0, false)
+    this.context.arc(175, 250, radius + 50, this.start * Math.PI / 180.0, this.end * Math.PI / 180.0, false)
     this.context.strokeStyle = color
     this.context.lineWidth = 2
     this.context.stroke()
