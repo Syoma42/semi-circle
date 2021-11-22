@@ -1,5 +1,5 @@
 export interface valueOptions {
-    curVal: number | unknown,
+    curVal: number,
     minVal: number,
     midVal: number,
     maxVal: number,
