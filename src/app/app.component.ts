@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   theme: Theme = 'dark-theme'
 
   valueOpt: valueOptions = {
+    nameVal: 'ROP',
     curVal: 43,
     minVal: 40,  
     midVal: 50, 

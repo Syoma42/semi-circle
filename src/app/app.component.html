@@ -1,8 +1,12 @@
 <div class="container">
     <div class="circle">
-        <lib-circle [valueOpt]="valueOpt"></lib-circle>
+        <lib-circle [valueOpt]="valueOpt" [theme]="theme"></lib-circle>
     </div>
     <div class="inputs">
+        <div class="input-line">
+            <label>Value name</label>
+            <input name="nameVal" [(ngModel)]="valueOpt.nameVal" type="text">
+        </div>
         <div class="input-line">
             <label>Current value</label>
             <input name="curVal" [(ngModel)]="valueOpt.curVal" type="number">

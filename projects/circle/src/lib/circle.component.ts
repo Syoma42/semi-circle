@@ -1,4 +1,5 @@
 import { AfterContentChecked, AfterViewChecked, AfterViewInit, Component, ElementRef, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Theme } from 'src/app/app.component';
 import { valueOptions } from '../models/valueOptions';
 
 
@@ -12,6 +13,7 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
   @ViewChild('canvas', { static: false }) canvas: ElementRef<HTMLCanvasElement>;
   
   @Input() valueOpt: valueOptions;
+  @Input() theme: Theme;
 
   private context: CanvasRenderingContext2D;
 
@@ -32,9 +34,6 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
   
   constructor () {}
 
-
-  
-  
 
   ngOnInit(): void {  }
 
@@ -65,6 +64,7 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
   // live update
 
   newConfirm(): void {
+    this.setTheme()
     this.clearCanv()
     this.setZone()
     this.semiCircle()
@@ -83,6 +83,10 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
       this.curColor = this.valueOpt.midZoneCol
     }
     this.valueColor = this.curColor
+  }
+
+  setTheme(): void {
+    this.theme === 'dark-theme' ? this.transparentCol = 'rgb(38, 42, 54)' : this.transparentCol = 'white'
   }
   
   // draw semi-circle
@@ -131,7 +135,7 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
 
   transparentSection(): void {
     this.context.beginPath();
-    this.context.fillStyle = 'rgb(38, 42, 54)';
+    this.context.fillStyle = this.transparentCol;
     this.context.moveTo(175, 250);
     this.context.arc(175, 250, 51, this.start * Math.PI / 180.0, (this.end + 5) * Math.PI / 180.0, false);
     this.context.fill();
@@ -143,15 +147,48 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
     }
   }
 
+  // setValueMargin(): void {
+  //   if (this.valueOpt.curVal > 999) {
+  //     this.valueMargin = 50
+  //     this.numberValueMargin = 100
+  //   } else {
+  //     this.valueMargin = 100
+  //     this.numberValueMargin = 150
+  //   }
+  // }
+
+  // setValueMargin(): void {
+  //   if (this.valueOpt.curVal > 999 && this.valueOpt.nameVal.length > 3) {
+  //     this.valueMargin = 5
+  //     this.numberValueMargin = 100
+  //   } else if (this.valueOpt.curVal > 999 || this.valueOpt.nameVal.length > 3) {
+  //     this.valueMargin = 50
+  //     this.numberValueMargin = 100
+  //   } else {
+  //     this.valueMargin = 100
+  //     this.numberValueMargin = 150
+  //   }
+  // }
+
   setValueMargin(): void {
-    if (this.valueOpt.curVal > 999) {
-      this.valueMargin = 50
+    if (this.valueOpt.curVal > 999 && this.valueOpt.nameVal.length > 3 ) {
+      this.valueMargin = 5
       this.numberValueMargin = 100
+    } else if (this.valueOpt.curVal > 999) {
+      this.valueMargin = 55
+      this.numberValueMargin = 100
+    } else if (this.valueOpt.nameVal.length > 3) {
+      this.valueMargin = 100 - (this.valueOpt.nameVal.length - 3) * 20
     } else {
       this.valueMargin = 100
       this.numberValueMargin = 150
     }
   }
+
+  setValueMargin2(): void {
+    
+  }
+
 
   strokesNumbers(): void {
     this.minRad = this.maxRad * (this.valueOpt.minVal / this.valueOpt.maxVal);
@@ -161,16 +198,11 @@ export class CircleComponent implements OnInit, AfterViewInit, AfterViewChecked,
     this.drawValue('10px arial', this.valueOpt.midStrokeCol, `${this.valueOpt.midVal}`, this.scaleMarginX, 200 - this.midRad)
     this.drawValue('10px arial', this.valueOpt.maxStrokeCol, `${this.valueOpt.maxVal}`, this.scaleMarginX, 200 - this.maxRad)
     // strokes min -> max
-
-    if (this.minRad < 50) {  // deletes min stroke 
-      this.minRad = 0
-    }
-    
     this.drawStroke(this.minRad, this.valueOpt.minStrokeCol)
     this.drawStroke(this.midRad, this.valueOpt.midStrokeCol)
     this.drawStroke(this.maxRad, this.valueOpt.maxStrokeCol)
     // current value
-    this.drawValue('20px arial', this.valueColor, 'ROP', this.valueMargin, 260)
+    this.drawValue('20px arial', this.valueColor, `${this.valueOpt.nameVal}`, this.valueMargin, 260)
     this.drawValue('36px arial', this.valueColor, `${this.valueOpt.curVal}`, this.numberValueMargin, 260)
   }
 

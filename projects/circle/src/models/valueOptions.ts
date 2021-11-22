@@ -1,4 +1,5 @@
 export interface valueOptions {
+    nameVal: string,
     curVal: number,
     minVal: number,
     midVal: number,

@@ -9,7 +9,7 @@ export class DataServiceService {
 
   socket: any;
   readonly url: string = 'ws://localhost:3000';
-  subject = new BehaviorSubject<number>(41)
+  subject = new BehaviorSubject<number>(30)
   
   constructor() { 
     this.socket = io(this.url);
