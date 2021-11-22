@@ -41,7 +41,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.getData()
     this.setTheme()
-    // this.service.getClick()
   }
 
   // theme
@@ -67,8 +66,6 @@ export class AppComponent implements OnInit {
   })
   }
 
-  
-
   clickData() {
     this.service.getClick()
   }
@@ -76,7 +73,6 @@ export class AppComponent implements OnInit {
   unClickData() {
     this.service.unGetClick()
   }
-
 }
 
 export type Theme = 'dark-theme' | 'light-theme' 

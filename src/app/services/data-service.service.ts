@@ -9,9 +9,7 @@ export class DataServiceService {
 
   socket: any;
   readonly url: string = 'ws://localhost:3000';
-  val = new Subject<number>()
   
-
   constructor() { 
     this.socket = io(this.url);
   }
